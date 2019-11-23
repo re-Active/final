@@ -31,6 +31,7 @@ export default class Home extends Component {
           }
         ]
       },
+      data: [],
       tempDate: ''
     };
   }
@@ -95,7 +96,9 @@ export default class Home extends Component {
         <Text>{item.name}</Text>
         <Button
           title="Update item"
-          onPress={()=> console.log(this.state.tempDate)}
+          // onPress={()=> console.log(this.state.tempDate)}
+          onPress={goToAbout}
+
         />
       </View>
     );
@@ -106,7 +109,7 @@ export default class Home extends Component {
       <View style={styles.emptyDate}>
         <Button
           title="Add item"
-          onPress={() => console.log(this.state.tempDate)}
+          onPress={goToAbout}
         /> 
       </View>
     );
