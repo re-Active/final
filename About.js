@@ -4,6 +4,9 @@ import { Actions } from 'react-native-router-flux'
 import GoalItem from './components/GoalItem'
 import GoalInput from './components/GoalInput'
 import ToggleSwitch from 'toggle-switch-react-native'
+// Push notification 구현을 위해서 필요 
+import { Notifications } from 'expo'
+import * as Permissions from 'expo-permissions'
 
 
 const About = () => {
@@ -32,6 +35,31 @@ const About = () => {
       setIsAddMode(false)
     }
 
+    // Push 알람 받을건지 묻는 함수 
+    askPermissions = async () => {
+      const { status: existingStatus } = await Permissions.getAsync(
+        Permissions.NOTIFICATIONS
+      );
+      let finalStatus = existingStatus;
+      if (existingStatus !== "granted") {
+        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+        finalStatus = status;
+      }
+      if (finalStatus !== "granted") {
+        return false;
+      }
+      return true;
+    };
+  
+    // 바로 Push 알람 보내는 함수 
+    sendNotificationImmediately = async () => {
+      let notificationId = await Notifications.presentLocalNotificationAsync({
+        title: "This is crazy",
+        body: "Your mind will blow after reading this"
+      });
+      console.log(notificationId); // can be saved in AsyncStorage or send to server
+    };
+
    return (
       <View>
          {/* <TouchableOpacity style = {{ margin: 128 }} onPress = {goToHome}>
@@ -52,7 +80,7 @@ const About = () => {
            }
            
          </View>
-         {/* <ToggleSwitch
+         <ToggleSwitch
           
           isOn={false}
           onColor="green"
@@ -61,7 +89,23 @@ const About = () => {
           labelStyle={{ color: "black", fontWeight: "900" }}
           size="large"
           onToggle={isOn => !isOn}
-        /> */}
+        />
+        {/* Push 알람 설정 동의 확인 창이 나오는 함수 */}
+        {/* 한번만 누르면 됨 */}
+        <Button
+          title="Please accept Notifications Permissions"
+          onPress={() => this.askPermissions()}
+        />
+        {/* 버튼 누르면 바로 Push 알람 옵니다. */}
+        <Button
+          title="Send Notification immediately"
+          onPress={() => this.sendNotificationImmediately()}
+        />
+        {/* 일단은 무시 */}
+        <Button
+          title="Dismiss All Notifications"
+          onPress={() => Notifications.dismissAllNotificationsAsync()}
+        />
          <FlatList 
          keyExtractor={(item,  index) => item.id}
          data={courseGoals} 
