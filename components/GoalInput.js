@@ -3,6 +3,22 @@ import {View, TextInput, Button, StyleSheet, Modal} from 'react-native'
 
 
 const GoalInput = props => {
+
+    id = 0
+    state = {
+      information : [{
+        id:1,
+        name: '신지영'
+      }]
+    }
+    const handleState = (data) => {
+      const {information} = this.state
+      this.setState({
+        information: information.concat({id:this.id++, ...data})
+      })
+      console.log(this.state)
+    } 
+
     const [enteredGoal, setEnteredGoal] = useState('')
     const goalInputHandler = (enteredText) => {
         setEnteredGoal(enteredText)
@@ -10,6 +26,10 @@ const GoalInput = props => {
     const addGoalHandler = () => {
       props.onAddGoal(enteredGoal) // bind할 필요 없음
       setEnteredGoal('') // 글자 없어지게
+      // handleTemp(enteredGoal)
+      handleState(enteredGoal)
+      console.log(enteredGoal)
+      console.log(temp)
     }
     return (
 
@@ -31,10 +51,6 @@ const GoalInput = props => {
             <Button title="ADD" onPress={addGoalHandler} />
           </View>
         </View>
-
-          {/* bind때문에 에러 떴었음 - 여기에서 onPress -> onAddGoal 속성을 부모 컴포넌트한테 받음. 이때 입력받은 값을 기존의 배열에 추가하겠다는 것
-          -> 여기서 enteredGoal을 입력값으로 받아 value로 넘기는 과정에 필요하니Rk bind필요 : this는 onAddGoal*/}
-
         </View>
 
 

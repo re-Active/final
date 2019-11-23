@@ -3,6 +3,8 @@ import { TouchableOpacity, Text, StyleSheet, View, Button, FlatList } from 'reac
 import { Actions } from 'react-native-router-flux'
 import GoalItem from './components/GoalItem'
 import GoalInput from './components/GoalInput'
+import ToggleSwitch from 'toggle-switch-react-native'
+
 
 const About = () => {
    const goToHome = () => {
@@ -13,7 +15,6 @@ const About = () => {
    const [isAddMode, setIsAddMode] = useState(false)
 
    const addGoalHandler = goalTitle => {
-      console.log('목표를 설정했습니다.')
       setCourseGoals(currentGoals => [
         ...currentGoals, 
         { id: Math.random().toString(), value: goalTitle }
@@ -21,14 +22,12 @@ const About = () => {
       setIsAddMode(false)
     }
     const removeGoalHandler = goalId => {
-      console.log('지워집니다.')
       setCourseGoals(currentGoals => {
         return currentGoals.filter((goal) => goal.id !== goalId )
       })
     }
   
     const cancelGoalAdditionHandler = () => {
-      console.log('취소')
       setIsAddMode(false)
     }
 
@@ -47,6 +46,16 @@ const About = () => {
          onAddGoal={addGoalHandler} 
          onCancel={cancelGoalAdditionHandler}
          />
+         <ToggleSwitch
+         
+          isOn={false}
+          onColor="green"
+          offColor="red"
+          label="Example label"
+          labelStyle={{ color: "black", fontWeight: "900" }}
+          size="large"
+          onToggle={isOn => !isOn}
+        />
          <FlatList 
          keyExtractor={(item,  index) => item.id}
          data={courseGoals} 
