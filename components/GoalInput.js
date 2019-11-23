@@ -4,20 +4,20 @@ import {View, TextInput, Button, StyleSheet, Modal} from 'react-native'
 
 const GoalInput = props => {
 
-    id = 0
-    state = {
-      information : [{
-        id:1,
-        name: '신지영'
-      }]
-    }
-    const handleState = (data) => {
-      const {information} = this.state
-      this.setState({
-        information: information.concat({id:this.id++, ...data})
-      })
-      console.log(this.state)
-    } 
+    // id = 0
+    // state = {
+    //   information : [{
+    //     id:1,
+    //     name: '신지영'
+    //   }]
+    // }
+    // const handleState = (data) => {
+    //   const {information} = this.state
+    //   this.setState({
+    //     information: information.concat({id:this.id++, ...data})
+    //   })
+    //   console.log(this.state)
+    // } 
 
     const [enteredGoal, setEnteredGoal] = useState('')
     const goalInputHandler = (enteredText) => {
@@ -27,7 +27,7 @@ const GoalInput = props => {
       props.onAddGoal(enteredGoal) // bind할 필요 없음
       setEnteredGoal('') // 글자 없어지게
       // handleTemp(enteredGoal)
-      handleState(enteredGoal)
+      // handleState(enteredGoal)
       console.log(enteredGoal)
       console.log(temp)
     }
@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
       alignContent: 'center',
       marginTop: 10,
       width: '40%'
-    }
+    },
+
 })
 
 export default GoalInput

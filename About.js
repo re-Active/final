@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { TouchableOpacity, Text, StyleSheet, View, Button, FlatList } from 'react-native'
+import { TouchableOpacity, Text, StyleSheet, View, Button, FlatList, Modal } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import GoalItem from './components/GoalItem'
 import GoalInput from './components/GoalInput'
@@ -11,6 +11,7 @@ const About = () => {
       Actions.home()
    }
    //
+   let modalon = false
    const [courseGoals, setCourseGoals] = useState([])
    const [isAddMode, setIsAddMode] = useState(false)
 
@@ -31,8 +32,6 @@ const About = () => {
       setIsAddMode(false)
     }
 
-
-
    return (
       <View>
          {/* <TouchableOpacity style = {{ margin: 128 }} onPress = {goToHome}>
@@ -45,9 +44,16 @@ const About = () => {
          <GoalInput 
          onAddGoal={addGoalHandler} 
          onCancel={cancelGoalAdditionHandler}
+         onChange={(modalon) => !modalon}
          />
-         <ToggleSwitch
-         
+         <View style={styles.card}>
+           {
+             this.modalon ? <Text>(무)신한스포츠/레저보장보험</Text> : null
+           }
+           
+         </View>
+         {/* <ToggleSwitch
+          
           isOn={false}
           onColor="green"
           offColor="red"
@@ -55,7 +61,7 @@ const About = () => {
           labelStyle={{ color: "black", fontWeight: "900" }}
           size="large"
           onToggle={isOn => !isOn}
-        />
+        /> */}
          <FlatList 
          keyExtractor={(item,  index) => item.id}
          data={courseGoals} 
@@ -79,7 +85,23 @@ const styles = StyleSheet.create({
    main: {
      alignContent: 'center',
      fontSize: 20,
-   }
+   },
+   insuranceItem: {
+    padding: 10,
+    marginVertical: 10,
+    backgroundColor: '#ccc',
+    borderColor: 'black',
+    borderWidth: 1
+  },
+  card: {
+    width: 300,
+    maxWidth: '80%',
+    alignItems: 'center',
+    elevation: 8,//andriod에는 shadow안되므로
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+  },
  })
  
 export default About
