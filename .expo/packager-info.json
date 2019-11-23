@@ -3,8 +3,8 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerNgrokUrl": "https://rg-cq6.anonymous.final.exp.direct",
+  "packagerNgrokUrl": "https://packager.rg-cq6.anonymous.final.exp.direct",
+  "ngrokPid": 59984,
   "webpackServerPort": null
 }

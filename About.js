@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { TouchableOpacity, Text, StyleSheet, View, Button, FlatList, Modal } from 'react-native'
+import { TouchableOpacity, Text, StyleSheet, View, Button, FlatList, Modal, fetch } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import GoalItem from './components/GoalItem'
 import GoalInput from './components/GoalInput'
@@ -7,14 +7,13 @@ import ToggleSwitch from 'toggle-switch-react-native'
 // Push notification 구현을 위해서 필요 
 import { Notifications } from 'expo'
 import * as Permissions from 'expo-permissions'
-
-
+import ToggleButtonExample from './components/Toggle'
 const About = () => {
    const goToHome = () => {
       Actions.home()
    }
    //
-   let modalon = false
+   <ToggleButtonExample/>
    const [courseGoals, setCourseGoals] = useState([])
    const [isAddMode, setIsAddMode] = useState(false)
 
@@ -30,7 +29,6 @@ const About = () => {
         return currentGoals.filter((goal) => goal.id !== goalId )
       })
     }
-  
     const cancelGoalAdditionHandler = () => {
       setIsAddMode(false)
     }
@@ -50,8 +48,9 @@ const About = () => {
       }
       return true;
     };
-  
+
     // 바로 Push 알람 보내는 함수 
+    
     sendNotificationImmediately = async () => {
       let notificationId = await Notifications.presentLocalNotificationAsync({
         title: "This is crazy",
@@ -59,6 +58,62 @@ const About = () => {
       });
       console.log(notificationId); // can be saved in AsyncStorage or send to server
     };
+
+
+    async function getInfo() {
+      const result = await fetch('http://10.3.17.61:8080/v1/account/list', {
+        method: 'POST', 
+        headers: {
+
+        },
+        body: {
+          "dataBody": {
+              "serviceCode": "",
+              "거래구분": "",
+              "계좌감추기여부": "",
+              "보안계좌조회구분": "",
+              "주민등록번호": "/yfihlYoJFyg=="
+          }
+      }
+      })
+        .then(response => { return response.json()})
+        .catch(error => {
+          console.log(error)
+        })
+        .then(response => {console.log(response)})
+    }
+    // const getInfo = () => {
+    //   return axios.post('http://10.3.17.61:8080/v1/account/list', {
+    //       method: 'POST', 
+    //       headers: {
+  
+    //       },
+    //       body: {
+    //         "dataBody": {
+    //             "serviceCode": "",
+    //             "거래구분": "",
+    //             "계좌감추기여부": "",
+    //             "보안계좌조회구분": "",
+    //             "주민등록번호": "/yfihlYoJFyg=="
+    //         }
+    //     }
+    //     })
+    //   .then (function(response) {
+    //     console.log(response)        
+    //   })
+    //   .catch(function (response) {
+    //     console.log(error)
+    //   })
+    // }
+    
+
+
+
+
+
+
+
+
 
    return (
       <View>
@@ -74,13 +129,8 @@ const About = () => {
          onCancel={cancelGoalAdditionHandler}
          onChange={(modalon) => !modalon}
          />
-         <View style={styles.card}>
-           {
-             this.modalon ? <Text>(무)신한스포츠/레저보장보험</Text> : null
-           }
-           
-         </View>
-         <ToggleSwitch
+
+         {/* <ToggleSwitch
           
           isOn={false}
           onColor="green"
@@ -89,7 +139,7 @@ const About = () => {
           labelStyle={{ color: "black", fontWeight: "900" }}
           size="large"
           onToggle={isOn => !isOn}
-        />
+        /> */}
         {/* Push 알람 설정 동의 확인 창이 나오는 함수 */}
         {/* 한번만 누르면 됨 */}
         <Button
@@ -105,6 +155,10 @@ const About = () => {
         <Button
           title="Dismiss All Notifications"
           onPress={() => Notifications.dismissAllNotificationsAsync()}
+        />
+        <Button
+          title="API"
+          onPress={() => getInfo()}
         />
          <FlatList 
          keyExtractor={(item,  index) => item.id}
@@ -147,5 +201,4 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
  })
- 
-export default About
+ export default About
