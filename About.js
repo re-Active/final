@@ -40,9 +40,10 @@ const About = () => {
          <Text>달라짐?</Text>
          </TouchableOpacity> */}
          <View style={styles.screen} >
-         <Button title="Add New Goal" onPress={() => setIsAddMode(true)}/>
+          <View >
+          <Text style={styles.main}>Add your Plan, here!</Text>
+          </View>
          <GoalInput 
-         visible={isAddMode} 
          onAddGoal={addGoalHandler} 
          onCancel={cancelGoalAdditionHandler}
          />
@@ -66,7 +67,10 @@ const styles = StyleSheet.create({
    screen: {
      padding: 50
    },
- 
+   main: {
+     alignContent: 'center',
+     fontSize: 20,
+   }
  })
  
 export default About
